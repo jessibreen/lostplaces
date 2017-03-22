@@ -50,6 +50,29 @@
 </head>
 <body>
 
+<!-- Welcome modal -->
+<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Lost Places Lex</h3>
+            </div>
+            <div class="modal-body">
+                <p> The goal of this project is to collaboratively map the places in Lexington that have been lost.</p>
+                <p> These can be places that no longer physically exist, or that have disappeared in other ways. </p>
+                <p> The place doesn't need to be of significance to the whole of Lexington, it's enough that it is significant to you.</p>
+                <p> After mapping, be sure to <b>View the Map</b> to see the places that other people have added to the map.</p>
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn" id="modalInfoBtn">More Info Here</button>-->
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Start Mapping</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL-->
+
 <div id='map'></div>
 <a href='#' id='export'></a>
 <a href="#" id='updateDataset'></a>

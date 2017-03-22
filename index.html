@@ -66,13 +66,13 @@ var map = new mapboxgl.Map({
 
 var geoJsonFeatures;
 var Draw = mapboxgl.Draw(
-        {
-            displayControlsDefault: false,
-            controls: {
-                'point': true,
-                'trash': true
-            }
-        }
+//        {
+//            displayControlsDefault: false,
+//            controls: {
+//                'point': true,
+//                'trash': true
+//            }
+//        }
 );
 
 var datasetId = "cj0ldpqfa00022xphwg2k355z";
@@ -102,35 +102,6 @@ map.on('load', function(){
             ["==", "$type", "Point"]
         ]
     });
-//    map.addLayer({
-//        "id": "dataset-line",
-//        "type": "line",
-//        "source": "my-dataset",
-//        "layout": {},
-//        "paint": {
-//            // grab the route's color value
-//            "line-color": "#73b6e6",
-//        },
-//        "filter": [
-//            "all",
-//            ["==", "$type", "LineString"]
-//        ]
-//    });
-//    map.addLayer({
-//        "id": "dataset-fill",
-//        "type": "fill",
-//        "source": "my-dataset",
-//        "layout": {},
-//        "paint": {
-//            // grab the route's color value
-//            "fill-color": "#73b6e6",
-//            "fill-outline-color": "#fff"
-//        },
-//        "filter": [
-//            "all",
-//            ["==", "$type", "Polygon"]
-//        ]
-//    });
 
     document.getElementById('export').onclick = function(e) {
         // Extract GeoJson from featureGroup

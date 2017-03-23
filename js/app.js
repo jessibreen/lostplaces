@@ -16,7 +16,7 @@ var Draw = mapboxgl.Draw(
     {
         displayControlsDefault: false,
         controls: {
-            'point': true,
+            'point': true
             'trash': true
         },
 

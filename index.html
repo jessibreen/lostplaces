@@ -4,8 +4,8 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.css' rel='stylesheet' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <!-- Bootstrap  -->
     <!-- Latest compiled and minified CSS -->
@@ -23,8 +23,10 @@
     </style>
 
     <!--<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>-->
-    <script src="js/mapbox-gl-draw.js"></script>
-    <link href='css/mapbox-gl-draw.css' rel='stylesheet' />
+    <!--<script src="js/mapbox-gl-draw.js"></script>-->
+    <!--<link href='css/mapbox-gl-draw.css' rel='stylesheet' />-->
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.17.0/mapbox-gl-draw.js'></script>
 
     <style>
         body { margin:0; padding:0; }
@@ -32,7 +34,7 @@
         #export, #updateDataset {
             position: absolute;
             top:140px;
-            left:10px;
+            right:10px;
             z-index:100;
             background-color:white;
             color:black;
@@ -42,7 +44,7 @@
             cursor: pointer;
             font-size:12px;
             text-decoration:none;
-
+            background-image: url(icon.png) ;
             background-repeat: no-repeat;
             background-position: -4245px -3px;
             height: 20px;
@@ -55,12 +57,16 @@
             background-position: -4324px -3px;
             top: 180px;
         }
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
     </style>
 
 </head>
 <body>
 
-<!-- Welcome modal -->
+<!-- About modal -->
 <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -72,7 +78,6 @@
                 <p> The goal of this project is to collaboratively map the places in Lexington that have been lost.</p>
                 <p> These can be places that no longer physically exist, or that have disappeared in other ways. </p>
                 <p> The place doesn't need to be of significance to the whole of Lexington, it's enough that it is significant to you.</p>
-                <p> After mapping, be sure to <b>View the Map</b> to see the places that other people have added to the map.</p>
             </div>
             <div class="modal-footer">
                 <!--<button class="btn" id="modalInfoBtn">More Info Here</button>-->
@@ -82,11 +87,56 @@
     </div>
 </div>
 <!--END MODAL-->
+<!-- Submit Modal ***********************************************************************-->
+<div id="submitModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Tell us about this place</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" style="margin-bottom:0px">
+                    <div id="alertHolder2"></div>
+                    <div class="form-group">
+                        <label for="placeName" class="col-xs-4 control-label"><span style="color:#FF0000">* </span>Place Name</label>
+                        <div class="col-xs-8">
+                            <input class="form-control typeahead noEnterSubmit placeName" id="placeName" autocomplete="off" data-provide="typeahead">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-xs-4 control-label" >Years Lived in Lexington:</label>
+                        <div id="cityLivingGroup" class="btn-group cty-group col-xs-8">
+                            <button type="button" class="btn btn-default" name="0">Never</button>
+                            <button type="button" class="btn btn-default" name="1">< 1</button>
+                            <button type="button" class="btn btn-default" name="2">1-5</button>
+                            <button type="button" class="btn btn-default" name="3">6-10</button>
+                            <button type="button" class="btn btn-default" name="4">> 10</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label   class="col-xs-4 control-label" >Describe or share a story about this place:</label>
+                        <div class="col-xs-8">
+                            <textarea id="placeDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button id="allSubmitBtn" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL-->
+
+
 
 <div id='map'></div>
-<a href='#' id='export'></a>
+<!-- <a href='#' id='export'></a> -->
 <a href="#" id='updateDataset'></a>
-
+<!--
 <script>
 $('#aboutModal').modal('show');
 mapboxgl.accessToken = 'pk.eyJ1IjoiamVzc2licmVlbiIsImEiOiJGNnlGVkRrIn0.Ar8l7jFbPYG3SWR-DrTyNQ';
@@ -202,6 +252,8 @@ function uploadFeatures(){
 }
 
 </script>
+-->
+<script src="js/app.js"></script>
 
 </body>
 </html>

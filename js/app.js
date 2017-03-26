@@ -24,10 +24,10 @@ var Draw = new MapboxDraw({
 
 var datasetId = "cj0ldpqfa00022xphwg2k355z";
 
-document.getElementById('updateDataset').onclick = function(e) {
-    e.preventDefault();
-    uploadFeatures();
-}
+// document.getElementById('updateDataset').onclick = function(e) {
+//     e.preventDefault();
+//     uploadFeatures();
+// }
 
 
 map.on('load', function(){
@@ -71,11 +71,23 @@ map.on('load', function(){
 
         // Populate the popup and set its coordinates
         // based on the feature found.
+        var placeName = feature.properties.placeName;
+        var placeDescription = feature.properties.placeDescription;
+        var yearsLived = feature.properties.yearsLived;
+        console.log(feature);
         var popup = new mapboxgl.Popup()
             .setLngLat(feature.geometry.coordinates)
-            .setHTML("<h1>Hello World!</h1>")
+            .setHTML("<h2>"+placeName+"</h2><em>"+yearsLived+" years</em><p>"+placeDescription+"</p>")
             .addTo(map);
     });
+
+    getFeatures(
+        datasetId,
+        function(data){
+            //todo:fix this global reference
+            map.getSource('dataset').setData(data);
+        }
+    );
 
     // map.on('click', function (e) {
     //     var markerHeight = 50, markerRadius = 10, linearOffset = 25;
@@ -115,62 +127,145 @@ map.on('load', function(){
     //
     // }
 
-
-
-    getData(datasetId);
-
-
-
-
-
+    //getData(datasetId);
 });
 
-map.on('draw.create', function(e) {$('#submitModal').modal('show');
-    console.log(e);
 
+//tell the modal to clear values if it becomes hidden
+$('#submitModal').on('hidden.bs.modal', function (e) {
+    $('#submitModal').find('input').val('');
+})
 
-
-
-
-
+//tell the modal to clear the Draw points if the modal has been dismissed (backdrop click does not dismiss this modal)
+$('#submitModal button[data-dismiss="modal"]').click(function(){
+    Draw.deleteAll();
 });
 
-function setFeatureId(){
-    return getData(datasetId);
+//Add the handler for the submit modal save button
+$('#allSubmitBtn').click(function(e){
+    var properties = {
+        'placeName': $('#placeName').val(),
+        'yearsLived': $('#yearsLived').val(),
+        'placeDescription': $('#placeDescription').val()
+        }
+
+    $('#allSubmitBtn').text('Saving...');
+    //add fields to the Draw feature
+    saveFeatureProperties($('#submitModal').data('featureId'), Draw, properties);
+
+    //get the full draw feature
+    featureData = Draw.get($('#submitModal').data('featureId'));
+
+    //post the feature to the server
+    postFeature(
+        featureData,
+        function(e){
+            $('#submitModal').modal('hide');
+            Draw.deleteAll();
+            $('#allSubmitBtn').text('Save');
+        }),
+        function(e){
+        //this doesn't fire on some ajax errors
+            console.error("error posting to server", e);
+             $('#submitModal .alert').show().text("There was a problem saving your submission.")
+        }
+
+})
+//couldn't get this to work
+// $('#submitModal .alert').ajaxError(function(event, request, settings){
+//     $(this).show();
+//     $(this).append("<li>Error requesting page " + settings.url + "</li>");
+// });
+
+map.on('draw.create', function(e) {
+    var featureId = e.features[0].id;
+    $('#submitModal').modal('show').data('featureId', featureId);
+});
+
+
+
+//Save an object of properties into a provided feature and Mapbox GL Draw object
+function saveFeatureProperties(featureId, drawObj, properties){
+
+    $.each(properties, function(property, value){
+        drawObj.setFeatureProperty(featureId, property, value);
+    })
+
 }
 
-function getData(datasetId) {
+
+//Use jQuery to POST the geoJSON of a single provided feature to Mapbox
+function postFeature(featureData, success, error) {
+
+    var postData = {
+        feature: featureData,
+        datasetId: "cj0ldpqfa00022xphwg2k355z"
+    }
+
+    $.ajax({
+        url:'https://mysterious-beyond-97824.herokuapp.com/dataset',
+        type:"POST",
+        data:JSON.stringify(postData),
+        contentType:"application/json",
+        dataType:"json",
+        success: success,
+        error: error
+    })
+}
+
+
+function getFeatures(datasetId, onDone) {
     $.ajax({
         url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
         type : 'GET',
         dataType: 'json'
     })
-        .done(function(oldData){
-            geoJsonFeatures = oldData;
-            //source.setData(geoJsonFeatures);
-            map.getSource('dataset').setData(geoJsonFeatures);
+        .done(function(data){
+            onDone(data)
+        }
+        );
 
-            return geoJsonFeatures;
-        });
 }
 
-function uploadFeatures(){
-    var drawnData = Draw.getAll();
-    for(i = 0; i < drawnData.features.length; i++){
+//
+// function setFeatureId(){
+//     return getData(datasetId);
+// }
+//
+// function getData(datasetId) {
+//     $.ajax({
+//         url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
+//         type : 'GET',
+//         dataType: 'json'
+//     })
+//         .done(function(oldData){
+//             geoJsonFeatures = oldData;
+//             //source.setData(geoJsonFeatures);
+//             map.getSource('dataset').setData(geoJsonFeatures);
+//
+//             return geoJsonFeatures;
+//         });
+// }
 
-        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-        xmlhttp.open("POST", 'https://mysterious-beyond-97824.herokuapp.com/dataset');
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(JSON.stringify({"feature":drawnData.features[i], "datasetId": "cj0ldpqfa00022xphwg2k355z"}));
 
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && i == drawnData.features.length) {
-                alert('upload successful!');
-
-                getData(datasetId);
-            } else if (xmlhttp.readyState == 4 && xmlhttp.status !== 200){
-                alert('looks like something went wrong');
-            }
-        };
-    }
-}
+//
+// function uploadFeatures(){
+//     var drawnData = Draw.getAll();
+//     for(i = 0; i < drawnData.features.length; i++){
+//
+//         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+//         xmlhttp.open("POST", 'https://mysterious-beyond-97824.herokuapp.com/dataset');
+//         xmlhttp.setRequestHeader("Content-Type", "application/json");
+//         xmlhttp.send(JSON.stringify({"feature":drawnData.features[i], "datasetId": "cj0ldpqfa00022xphwg2k355z"}));
+//
+//         xmlhttp.onreadystatechange = function() {
+//             if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && i == drawnData.features.length) {
+//                 alert('upload successful!');
+//
+//                 getData(datasetId);
+//             } else if (xmlhttp.readyState == 4 && xmlhttp.status !== 200){
+//                 alert('looks like something went wrong');
+//             }
+//         };
+//     }
+// }

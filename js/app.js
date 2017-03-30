@@ -48,7 +48,7 @@ map.on('load', function(){
         "type": "symbol",
         "source": "dataset",
         "layout": {
-            "icon-image": "lost-15-01"
+            "icon-image": "post-15-01"
         },
         //"paint": {
             // grab the route's color value

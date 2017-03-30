@@ -77,7 +77,7 @@ map.on('load', function(){
         console.log(feature);
         var popup = new mapboxgl.Popup()
             .setLngLat(feature.geometry.coordinates)
-            .setHTML("<h2>"+placeName+"</h2><em>"+yearsLived+" years</em><p>"+placeDescription+"</p>")
+            .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
             .addTo(map);
     });
 

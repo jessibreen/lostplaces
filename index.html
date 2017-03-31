@@ -1,227 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8' />
-    <title></title>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.css' rel='stylesheet' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <!-- Bootstrap  -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    </head><body>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <span><h2>Lost Places</h2></span>
+            </a>
+        </div>
+        <!-- <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active">
+                    <a href="#">Neighborhood Art Project</a>
+                </li>
+                <li>
+                    <a href="#">Contacts</a>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+</div>
+<div class="section"> 
+<div class="container-fluid" style="background-image:url(img/screen.jpg); background-size: cover;
+    background-repeat: no-repeat; background-position: center center; border-top:1px solid #ccc; border-bottom: 1px solid #ccc; min-height: 200px; margin-bottom:30px;">
+    
+</div>
 
-    <!-- Bootstrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
-    </style>
-
-    <!--<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>-->
-    <!--<script src="js/mapbox-gl-draw.js"></script>-->
-    <!--<link href='css/mapbox-gl-draw.css' rel='stylesheet' />-->
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.css' type='text/css' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.17.0/mapbox-gl-draw.js'></script>
-
-    <link rel='stylesheet' href='css/lostplaces.css' type='text/css' />
-
-</head>
-<body>
-
-<!-- About modal -->
-<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Lost Places Lex</h3>
-            </div>
-            <div class="modal-body">
-                <p> The goal of this project is to collaboratively map the places in Lexington that have been lost.</p>
+    <div class="container"> 
+        <div class="row"> 
+            <div class="col-md-12"> 
+                
+                <p>The goal of this project is to collaboratively map the places in Lexington that have been lost.</p>
                 <p> These can be places that no longer physically exist, or that have disappeared in other ways. </p>
-                <p> The place doesn't need to be of significance to the whole of Lexington, it's enough that it is significant to you.</p>
+                <p> The place doesn't need to be of significance to the whole of Lexington, it's enough that it is significant to you.
+
+
+                    The Lost Places Map is a part of The Plantory's Neighborhood Art Project, made possible by a grant from the Blue Grass Community Foundation through a partnership with the Kresge Foudnation.
+
+                </p>
             </div>
-            <div class="modal-footer">
-                <!--<button class="btn" id="modalInfoBtn">More Info Here</button>-->
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Start Mapping</button>
+        </div>
+
+                <div class="row">
+            <div class="col-md-12 text-center">
+                <a href="index.html" class="btn btn-block btn-lg btn-basic">Go to the Map</a>
             </div>
         </div>
     </div>
 </div>
-<!--END MODAL-->
-<!-- Submit Modal ***********************************************************************-->
-<div id="submitModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Tell us about this place</h3>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" style="margin-bottom:0px">
-                    <div id="alertHolder2"></div>
-                    <div class="form-group">
-                        <label for="placeName" class="col-xs-4 control-label"><span style="color:#FF0000">* </span>Place Name</label>
-                        <div class="col-xs-8">
-                            <input class="form-control noEnterSubmit placeName" id="placeName" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label  class="col-xs-4 control-label" >Years Lived in Lexington:</label>
-                        <div class="col-xs-8">
-                            <input class="form-control noEnterSubmit yearsLived" id="yearsLived" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label   class="col-xs-4 control-label" >Describe or share a story about this place:</label>
-                        <div class="col-xs-8">
-                            <textarea id="placeDescription" class="form-control" rows="3"></textarea>
-                        </div>
-                    </div>
-                </form>
-                <div class="alert alert-danger" role="alert" data-dismiss="alert" style="display:none">...</div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <button id="allSubmitBtn" class="btn btn-success"> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display:none"></span>Save</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--END MODAL-->
-
-
-
-<div id='map'></div>
-<!-- <a href='#' id='export'></a> -->
-<a href="#" id='updateDataset'></a>
-<!--
-<script>
-$('#aboutModal').modal('show');
-mapboxgl.accessToken = 'pk.eyJ1IjoiamVzc2licmVlbiIsImEiOiJGNnlGVkRrIn0.Ar8l7jFbPYG3SWR-DrTyNQ';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/jessibreen/cj0l6jygv002z2smr7yyp8fhx', //stylesheet location
-    center: [-84.492, 38.050], // starting position
-    zoom: 13.8, // starting zoom
-    bearing: 48.05
-});
-
-var geoJsonFeatures;
-var Draw = mapboxgl.Draw(
-        {
-            displayControlsDefault: false,
-            controls: {
-                'point': true,
-                'trash': true
-            }
-        }
-);
-
-var datasetId = "cj0ldpqfa00022xphwg2k355z";
-
-var source = new mapboxgl.GeoJSONSource({
-    data: {
-        "type": "FeatureCollection",
-        "features": []
-    }
-});
-
-map.on('load', function(){
-    map.addControl(Draw);
-
-    map.addSource('dataset', source);
-    map.addLayer({
-        "id": "dataset-point",
-        "type": "circle",
-        "source": "dataset",
-        "layout": {},
-        "paint": {
-            // grab the route's color value
-            "circle-color": "#73b6e6",
-        },
-        "filter": [
-            "all",
-            ["==", "$type", "Point"]
-        ]
-    });
-
-    document.getElementById('export').onclick = function(e) {
-        // Extract GeoJson from featureGroup
-        var data = Draw.getAll();
-
-        if (data.features.length > 0) {
-            // Stringify the GeoJson
-            var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-
-            // Create export
-            document.getElementById('export').setAttribute('href', 'data:' + convertedData);
-            document.getElementById('export').setAttribute('download','data.geojson');
-        } else {
-            alert("Wouldn't you like to draw some data?");
-        }
-
-    }
-    document.getElementById('updateDataset').onclick = function(e) {
-        e.preventDefault();
-        uploadFeatures();
-    }
-
-    getData(datasetId);
-
-
-});
-
-function setFeatureId(){
-    return getData(datasetId);
-}
-
-function getData(datasetId) {
-    $.ajax({
-        url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
-        type : 'GET',
-        dataType: 'json'
-    })
-            .done(function(oldData){
-                geoJsonFeatures = oldData;
-                source.setData(geoJsonFeatures);
-                return geoJsonFeatures;
-            });
-}
-
-function uploadFeatures(){
-    var drawnData = Draw.getAll();
-    for(i = 0; i < drawnData.features.length; i++){
-
-        var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-        xmlhttp.open("POST", 'https://mysterious-beyond-97824.herokuapp.com/dataset');
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.send(JSON.stringify({"feature":drawnData.features[i], "datasetId": "cj0ldpqfa00022xphwg2k355z"}));
-
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && i == drawnData.features.length) {
-                alert('upload successful!');
-
-                getData(datasetId);
-            } else if (xmlhttp.readyState == 4 && xmlhttp.status !== 200){
-                alert('looks like something went wrong');
-            }
-        };
-    }
-}
-
-</script>
--->
-<script src="js/app.js"></script>
 
 </body>
 </html>
-
-
-

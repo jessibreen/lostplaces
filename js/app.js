@@ -29,6 +29,8 @@ var datasetId = "cj0ldpqfa00022xphwg2k355z";
 //     uploadFeatures();
 // }
 
+var createFeatureUI = 
+
 
 map.on('load', function(){
     map.addControl(Draw);
@@ -79,6 +81,45 @@ map.on('load', function(){
             .setLngLat(feature.geometry.coordinates)
             .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
             .addTo(map);
+    });
+    
+        map.on('touchend', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
+
+        if (!features.length) {
+            return;
+        }
+
+        var feature = features[0];
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        var placeName = feature.properties.placeName;
+        var placeDescription = feature.properties.placeDescription;
+        var yearsLived = feature.properties.yearsLived;
+        console.log(feature);
+       
+       map.on('touchstart', function(e){
+           $('body').removeClass('tray-open');
+           map.resize()
+           $('.info-tray h3').text();
+            $('.info-tray .description').html();
+           
+       });
+       
+        $('.info-tray h3').text(placeName);
+        $('.info-tray .description').html(placeDescription);
+        map.flyTo({center: feature.geometry.coordinates});
+       $('body').addClass('tray-open');
+        map.resize(); 
+    //   map.flyTo({center: feature.geometry.coordinates});
+       
+    //   setTimeout(function(){
+    //       map.resize(); 
+    //       map.flyTo({center: feature.geometry.coordinates}); }, 
+    // 500);
+        
+       
     });
 
     getFeatures(

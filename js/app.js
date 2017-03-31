@@ -203,7 +203,7 @@ function postFeature(featureData, success, error) {
     }
 
     $.ajax({
-        url:'https://mysterious-beyond-97824.herokuapp.com/dataset',
+        url:'http://lostplacesmap.org/api/dataset',
         type:"POST",
         data:JSON.stringify(postData),
         contentType:"application/json",
@@ -216,7 +216,7 @@ function postFeature(featureData, success, error) {
 
 function getFeatures(datasetId, onDone) {
     $.ajax({
-        url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
+        url : 'http://lostplacesmap.org/api/dataset?datasetId=' + datasetId,
         type : 'GET',
         dataType: 'json'
     })

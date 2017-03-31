@@ -161,7 +161,7 @@ $('#allSubmitBtn').click(function(e){
         featureData,
         function(e){
             $('#submitModal').modal('hide');
-            Draw.deleteAll();
+            //Draw.deleteAll();
             $('#allSubmitBtn').text('Save');
         }),
         function(e){

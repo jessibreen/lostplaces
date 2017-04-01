@@ -1,5 +1,5 @@
 body { margin:0; padding:0; }
-#map { position:absolute; top:0; bottom:0; width:100%; }
+#map { position:absolute; top:50px; bottom:0; width:100%; }
 
 .tray-open #map{bottom: 250px;  
 -webkit-transition: all 0.5s ease;
@@ -45,15 +45,4 @@ body { margin:0; padding:0; }
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
-}
-.navbar{
-	height : 50px;
-	/*margin-bottom : @line-height-computed;*/
-	/*border-radius : @border-radius-base;*/
-	padding-horizontal : floor((@grid-gutter-width / 2));
-	padding-vertical : ((@navbar-height - @line-height-computed) / 2);
-	/*@navbar-collapse-max-height : 340px;*/
-	color : black;
-	color-background : #f8f8f8;
-	border : darken(#f8f8f8, 6.5%);
 }

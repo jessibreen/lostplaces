@@ -16,160 +16,18 @@ var geoJsonFeatures;
 var Draw = new MapboxDraw({
     displayControlsDefault: false,
     controls: {
-        'point': true,
-        'trash': true
+        'point': true
     },
 
 });
 
 var datasetId = "cj0ldpqfa00022xphwg2k355z";
 
-// document.getElementById('updateDataset').onclick = function(e) {
-//     e.preventDefault();
-//     uploadFeatures();
-// }
-
-var createFeatureUI = 
 
 
 map.on('load', function(){
     map.addControl(Draw);
-
-
-    // map.addSource('dataset', {
-    //     "type": "geojson",
-    //     "data":  {
-    //         type: 'FeatureCollection',
-    //         features: []
-    //     }
-    //     }
-    // );
-
-//     map.addLayer({
-//         "id": "dataset-point",
-//         "type": "symbol",
-//         "source": "dataset",
-//         "layout": {
-//             "icon-image": "post-15-01"
-//         },
-//         //"paint": {
-//             // grab the route's color value
-//             //"circle-color": "#73b6e6",
-//         //},
-//         "filter": [
-//             "all",
-//             ["==", "$type", "Point"]
-//         ]
-// });
-
-    // map.on('click', function (e) {
-    //     var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
-
-    //     if (!features.length) {
-    //         return;
-    //     }
-
-    //     var feature = features[0];
-
-    //     // Populate the popup and set its coordinates
-    //     // based on the feature found.
-    //     var placeName = feature.properties.placeName;
-    //     var placeDescription = feature.properties.placeDescription;
-    //     var yearsLived = feature.properties.yearsLived;
-    //     console.log(feature);
-    //     var popup = new mapboxgl.Popup()
-    //         .setLngLat(feature.geometry.coordinates)
-    //         .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
-    //         .addTo(map);
-    // });
-    
-    //     map.on('touchend', function (e) {
-    //     var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
-
-    //     if (!features.length) {
-    //         return;
-    //     }
-
-    //     var feature = features[0];
-
-    //     // Populate the popup and set its coordinates
-    //     // based on the feature found.
-    //     var placeName = feature.properties.placeName;
-    //     var placeDescription = feature.properties.placeDescription;
-    //     var yearsLived = feature.properties.yearsLived;
-    //     console.log(feature);
-       
-    //   map.on('touchstart', function(e){
-    //       $('body').removeClass('tray-open');
-    //       map.resize()
-    //       $('.info-tray h3').text();
-    //         $('.info-tray .description').html();
-           
-    //   });
-       
-    //     $('.info-tray h3').text(placeName);
-    //     $('.info-tray .description').html(placeDescription);
-    //     map.flyTo({center: feature.geometry.coordinates});
-    //   $('body').addClass('tray-open');
-    //     map.resize(); 
-    //   map.flyTo({center: feature.geometry.coordinates});
-       
-    //   setTimeout(function(){
-    //       map.resize(); 
-    //       map.flyTo({center: feature.geometry.coordinates}); }, 
-    // 500);
-        
-       
-    });
-
-    // getFeatures(
-    //     datasetId,
-    //     function(data){
-    //         //todo:fix this global reference
-    //         map.getSource('dataset').setData(data);
-    //     }
-    // );
-
-    // map.on('click', function (e) {
-    //     var markerHeight = 50, markerRadius = 10, linearOffset = 25;
-    //     var popupOffsets = {
-    //         'top': [0, 0],
-    //         'top-left': [0, 0],
-    //         'top-right': [0, 0],
-    //         'bottom': [0, -markerHeight],
-    //         'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //         'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //         'left': [markerRadius, (markerHeight - markerRadius) * -1],
-    //         'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-    //     };
-    //
-    //     var popupContent = "<h1>Hello World!</h1>";
-    //
-    //     var popup = new mapboxgl.Popup({closeOnClick: false, offset: popupOffsets})
-    //         .setLngLat(features.geometry.coordinates)
-    //         .setHTML(popupContent)
-    //         .addTo(map);
-    // });
-
-    // document.getElementById('export').onclick = function(e) {
-    //     // Extract GeoJson from featureGroup
-    //     var data = Draw.getAll();
-    //
-    //     if (data.features.length > 0) {
-    //         // Stringify the GeoJson
-    //         var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-    //
-    //         // Create export
-    //         document.getElementById('export').setAttribute('href', 'data:' + convertedData);
-    //         document.getElementById('export').setAttribute('download','data.geojson');
-    //     } else {
-    //         alert("Wouldn't you like to draw some data?");
-    //     }
-    //
-    // }
-
-    //getData(datasetId);
-// });
+});
 
 
 //tell the modal to clear values if it becomes hidden
@@ -196,6 +54,13 @@ $('#allSubmitBtn').click(function(e){
 
     //get the full draw feature
     featureData = Draw.get($('#submitModal').data('featureId'));
+    
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Create Point',
+      eventAction: 'clickSave',
+      eventLabel: 'Clicked save'
+    });
 
     //post the feature to the server
     postFeature(
@@ -204,30 +69,44 @@ $('#allSubmitBtn').click(function(e){
             $('#submitModal').modal('hide');
             //Draw.deleteAll();
             $('#allSubmitBtn').text('Save');
+            
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Create Point',
+              eventAction: 'saveSuccess',
+              eventLabel: 'Successful Save'
+            });
+            
         }),
         function(e){
         //this doesn't fire on some ajax errors
             console.error("error posting to server", e);
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Create Point',
+              eventAction: 'saveError',
+              eventLabel: 'Error on Save'
+            });
              $('#submitModal .alert').show().text("There was a problem saving your submission.")
         }
 
 })
-//couldn't get this to work
-// $('#submitModal .alert').ajaxError(function(event, request, settings){
-//     $(this).show();
-//     $(this).append("<li>Error requesting page " + settings.url + "</li>");
-// });
 
 map.on('draw.create', function(e) {
     var featureId = e.features[0].id;
     $('#submitModal').modal('show').data('featureId', featureId);
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Create Point',
+      eventAction: 'createModalOpened',
+      eventLabel: 'Create point modal opened'
+    });
 });
 
 
 
 //Save an object of properties into a provided feature and Mapbox GL Draw object
 function saveFeatureProperties(featureId, drawObj, properties){
-
     $.each(properties, function(property, value){
         drawObj.setFeatureProperty(featureId, property, value);
     })
@@ -255,58 +134,3 @@ function postFeature(featureData, success, error) {
 }
 
 
-// function getFeatures(datasetId, onDone) {
-//     $.ajax({
-//         url : 'http://lostplacesmap.org/api/dataset?datasetId=' + datasetId,
-//         type : 'GET',
-//         dataType: 'json'
-//     })
-//         .done(function(data){
-//             onDone(data)
-//         }
-//         );
-
-// }
-
-//
-// function setFeatureId(){
-//     return getData(datasetId);
-// }
-//
-// function getData(datasetId) {
-//     $.ajax({
-//         url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
-//         type : 'GET',
-//         dataType: 'json'
-//     })
-//         .done(function(oldData){
-//             geoJsonFeatures = oldData;
-//             //source.setData(geoJsonFeatures);
-//             map.getSource('dataset').setData(geoJsonFeatures);
-//
-//             return geoJsonFeatures;
-//         });
-// }
-
-
-//
-// function uploadFeatures(){
-//     var drawnData = Draw.getAll();
-//     for(i = 0; i < drawnData.features.length; i++){
-//
-//         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-//         xmlhttp.open("POST", 'https://mysterious-beyond-97824.herokuapp.com/dataset');
-//         xmlhttp.setRequestHeader("Content-Type", "application/json");
-//         xmlhttp.send(JSON.stringify({"feature":drawnData.features[i], "datasetId": "cj0ldpqfa00022xphwg2k355z"}));
-//
-//         xmlhttp.onreadystatechange = function() {
-//             if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && i == drawnData.features.length) {
-//                 alert('upload successful!');
-//
-//                 getData(datasetId);
-//             } else if (xmlhttp.readyState == 4 && xmlhttp.status !== 200){
-//                 alert('looks like something went wrong');
-//             }
-//         };
-//     }
-// }

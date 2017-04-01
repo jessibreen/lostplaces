@@ -13,23 +13,10 @@ var map = new mapboxgl.Map({
 
 
 var geoJsonFeatures;
-// var Draw = new MapboxDraw({
-//     displayControlsDefault: false,
-//     controls: {
-//         'point': true,
-//         'trash': true
-//     },
 
-// });
 
 var datasetId = "cj0ldpqfa00022xphwg2k355z";
 
-// document.getElementById('updateDataset').onclick = function(e) {
-//     e.preventDefault();
-//     uploadFeatures();
-// }
-
-var createFeatureUI = 
 
 
 map.on('load', function(){
@@ -81,7 +68,17 @@ map.on('load', function(){
             .setLngLat(feature.geometry.coordinates)
             .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
             .addTo(map);
-    });
+            
+        ga('send', {
+              hitType: 'event',
+              eventCategory: 'View Point',
+              eventAction: 'pointClicked',
+              eventLabel: placeName
+        });
+    
+
+        });
+
     
         map.on('touchend', function (e) {
         var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
@@ -104,6 +101,13 @@ map.on('load', function(){
            map.resize()
            $('.info-tray h3').text();
             $('.info-tray .description').html();
+            
+           ga('send', {
+              hitType: 'event',
+              eventCategory: 'View Point',
+              eventAction: 'pointTapped',
+              eventLabel: placeName
+            });
            
        });
        
@@ -112,14 +116,6 @@ map.on('load', function(){
         map.flyTo({center: feature.geometry.coordinates});
        $('body').addClass('tray-open');
         map.resize(); 
-    //   map.flyTo({center: feature.geometry.coordinates});
-       
-    //   setTimeout(function(){
-    //       map.resize(); 
-    //       map.flyTo({center: feature.geometry.coordinates}); }, 
-    // 500);
-        
-       
     });
 
     getFeatures(
@@ -130,45 +126,6 @@ map.on('load', function(){
         }
     );
 
-    // map.on('click', function (e) {
-    //     var markerHeight = 50, markerRadius = 10, linearOffset = 25;
-    //     var popupOffsets = {
-    //         'top': [0, 0],
-    //         'top-left': [0, 0],
-    //         'top-right': [0, 0],
-    //         'bottom': [0, -markerHeight],
-    //         'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //         'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //         'left': [markerRadius, (markerHeight - markerRadius) * -1],
-    //         'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-    //     };
-    //
-    //     var popupContent = "<h1>Hello World!</h1>";
-    //
-    //     var popup = new mapboxgl.Popup({closeOnClick: false, offset: popupOffsets})
-    //         .setLngLat(features.geometry.coordinates)
-    //         .setHTML(popupContent)
-    //         .addTo(map);
-    // });
-
-    // document.getElementById('export').onclick = function(e) {
-    //     // Extract GeoJson from featureGroup
-    //     var data = Draw.getAll();
-    //
-    //     if (data.features.length > 0) {
-    //         // Stringify the GeoJson
-    //         var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
-    //
-    //         // Create export
-    //         document.getElementById('export').setAttribute('href', 'data:' + convertedData);
-    //         document.getElementById('export').setAttribute('download','data.geojson');
-    //     } else {
-    //         alert("Wouldn't you like to draw some data?");
-    //     }
-    //
-    // }
-
-    //getData(datasetId);
 });
 
 
@@ -212,11 +169,7 @@ $('#allSubmitBtn').click(function(e){
         }
 
 })
-//couldn't get this to work
-// $('#submitModal .alert').ajaxError(function(event, request, settings){
-//     $(this).show();
-//     $(this).append("<li>Error requesting page " + settings.url + "</li>");
-// });
+
 
 map.on('draw.create', function(e) {
     var featureId = e.features[0].id;
@@ -268,45 +221,3 @@ function getFeatures(datasetId, onDone) {
 
 }
 
-//
-// function setFeatureId(){
-//     return getData(datasetId);
-// }
-//
-// function getData(datasetId) {
-//     $.ajax({
-//         url : 'https://mysterious-beyond-97824.herokuapp.com/dataset?datasetId=' + datasetId,
-//         type : 'GET',
-//         dataType: 'json'
-//     })
-//         .done(function(oldData){
-//             geoJsonFeatures = oldData;
-//             //source.setData(geoJsonFeatures);
-//             map.getSource('dataset').setData(geoJsonFeatures);
-//
-//             return geoJsonFeatures;
-//         });
-// }
-
-
-//
-// function uploadFeatures(){
-//     var drawnData = Draw.getAll();
-//     for(i = 0; i < drawnData.features.length; i++){
-//
-//         var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-//         xmlhttp.open("POST", 'https://mysterious-beyond-97824.herokuapp.com/dataset');
-//         xmlhttp.setRequestHeader("Content-Type", "application/json");
-//         xmlhttp.send(JSON.stringify({"feature":drawnData.features[i], "datasetId": "cj0ldpqfa00022xphwg2k355z"}));
-//
-//         xmlhttp.onreadystatechange = function() {
-//             if (xmlhttp.readyState == 4 && xmlhttp.status == 200 && i == drawnData.features.length) {
-//                 alert('upload successful!');
-//
-//                 getData(datasetId);
-//             } else if (xmlhttp.readyState == 4 && xmlhttp.status !== 200){
-//                 alert('looks like something went wrong');
-//             }
-//         };
-//     }
-// }

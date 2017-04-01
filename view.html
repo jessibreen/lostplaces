@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <!-- Bootstrap  -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+
+    <!--<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>-->
+    <!--<script src="js/mapbox-gl-draw.js"></script>-->
+    <!--<link href='css/mapbox-gl-draw.css' rel='stylesheet' />-->
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.16.0/mapbox-gl-draw.css' type='text/css' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v0.17.0/mapbox-gl-draw.js'></script>
+
+    <link rel='stylesheet' href='css/lostplaces.css' type='text/css' />
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">
+          <span>Lost Places</span>
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <!--<li class="active"><a href="#">Home</a></li>-->
+      <li><a href="map.html">Add a Lost Place</a></li>
+      <li class="active"><a href="view.html">View Lost Places</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- About modal -->
+<!--<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+<!--                <h3 id="myModalLabel">About the Map</h3>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <p>-->
+<!--                    It can take a few minutes for new points to show up on the map. -->
+<!--                    </p>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+                <!--<button class="btn" id="modalInfoBtn">More Info Here</button>-->
+<!--                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Start Mapping</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--END MODAL-->
+<!-- Submit Modal ***********************************************************************-->
+<!--<div id="submitModal"  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+<!--                <h3 id="myModalLabel">Tell us about this place</h3>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form class="form-horizontal" style="margin-bottom:0px">-->
+<!--                    <div id="alertHolder2"></div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="placeName" class="col-xs-4 control-label"><span style="color:#FF0000">* </span>Place Name</label>-->
+<!--                        <div class="col-xs-8">-->
+<!--                            <input class="form-control noEnterSubmit placeName" id="placeName" autocomplete="off">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label  class="col-xs-4 control-label" >Years Lived in Lexington:</label>-->
+<!--                        <div class="col-xs-8">-->
+<!--                            <input class="form-control noEnterSubmit yearsLived" id="yearsLived" autocomplete="off">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label   class="col-xs-4 control-label" >Describe or share a story about this place:</label>-->
+<!--                        <div class="col-xs-8">-->
+<!--                            <textarea id="placeDescription" class="form-control" rows="3"></textarea>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                <div class="alert alert-danger" role="alert" data-dismiss="alert" style="display:none">...</div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>-->
+<!--                    <button id="allSubmitBtn" class="btn btn-success"> <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display:none"></span>Save</button>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--END MODAL-->
+
+
+
+<div id='map'></div>
+<div class="info-tray">
+    <h3>FOO</h3>
+    <div class='description'>some description</div>
+</div>
+<!-- <a href='#' id='export'></a> -->
+<a href="#" id='updateDataset'></a>
+
+<script src="js/view.js"></script>
+
+</body>
+</html>
+
+
+

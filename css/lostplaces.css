@@ -46,3 +46,14 @@ body { margin:0; padding:0; }
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
 }
+.navbar{
+	height : 50px;
+	/*margin-bottom : @line-height-computed;*/
+	/*border-radius : @border-radius-base;*/
+	padding-horizontal : floor((@grid-gutter-width / 2));
+	padding-vertical : ((@navbar-height - @line-height-computed) / 2);
+	/*@navbar-collapse-max-height : 340px;*/
+	color : black;
+	color-background : #f8f8f8;
+	border : darken(#f8f8f8, 6.5%);
+}

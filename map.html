@@ -19,7 +19,7 @@
 
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map { position:absolute; top:50; bottom:0; width:100%; }
     </style>
 
     <!--<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>-->
@@ -32,7 +32,20 @@
 
 </head>
 <body>
-
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">
+          <span>Lost Places</span>
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <!--<li class="active"><a href="#">Home</a></li>-->
+      <li class="active"><a href="map.html">Add a Lost Place</a></li>
+      <li><a href="view.html">View Lost Places</a></li>
+    </ul>
+  </div>
+</nav>
 <!-- About modal -->
 <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog">
@@ -46,9 +59,7 @@
     height: 15px;
     width: 15px;
     background-repeat: no-repeat;
-    background-size: contain;"></span> icon on the right of the screen, then click on the map in order to draw a new point. Once you've drawn a point, you'll be prompted to provide a name for your place and given space to share a personal story about your experience or memories of that place. When you're done, click the Save button.
-
-                It can take a few minutes for new points to show up on the map. Once the point appears on the map, visitors will be able to click on your point and read your story.
+    background-size: contain;"></span> icon on the right of the screen to activate the drawing tool, then click on the map to add your point. <br>Once you've drawn a point, you'll be prompted to provide a name for your place and given space to share a personal story about your experience or memories of that place. <br>When you're done, click the Save button.
 
                 All submissions to the map are anonymous.   
                     </p>

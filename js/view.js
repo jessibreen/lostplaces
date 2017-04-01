@@ -1,7 +1,7 @@
 /**
  * Created by Moomintroll on 3/22/17.
  */
-$('#aboutModal').modal('show');
+//$('#aboutModal').modal('show');
 mapboxgl.accessToken = 'pk.eyJ1IjoiamVzc2licmVlbiIsImEiOiJGNnlGVkRrIn0.Ar8l7jFbPYG3SWR-DrTyNQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -13,14 +13,14 @@ var map = new mapboxgl.Map({
 
 
 var geoJsonFeatures;
-var Draw = new MapboxDraw({
-    displayControlsDefault: false,
-    controls: {
-        'point': true,
-        'trash': true
-    },
+// var Draw = new MapboxDraw({
+//     displayControlsDefault: false,
+//     controls: {
+//         'point': true,
+//         'trash': true
+//     },
 
-});
+// });
 
 var datasetId = "cj0ldpqfa00022xphwg2k355z";
 
@@ -33,85 +33,85 @@ var createFeatureUI =
 
 
 map.on('load', function(){
-    map.addControl(Draw);
+    // map.addControl(Draw);
 
 
-    // map.addSource('dataset', {
-    //     "type": "geojson",
-    //     "data":  {
-    //         type: 'FeatureCollection',
-    //         features: []
-    //     }
-    //     }
-    // );
+    map.addSource('dataset', {
+        "type": "geojson",
+        "data":  {
+            type: 'FeatureCollection',
+            features: []
+        }
+        }
+    );
 
-//     map.addLayer({
-//         "id": "dataset-point",
-//         "type": "symbol",
-//         "source": "dataset",
-//         "layout": {
-//             "icon-image": "post-15-01"
-//         },
-//         //"paint": {
-//             // grab the route's color value
-//             //"circle-color": "#73b6e6",
-//         //},
-//         "filter": [
-//             "all",
-//             ["==", "$type", "Point"]
-//         ]
-// });
+    map.addLayer({
+        "id": "dataset-point",
+        "type": "symbol",
+        "source": "dataset",
+        "layout": {
+            "icon-image": "post-15-01"
+        },
+        //"paint": {
+            // grab the route's color value
+            //"circle-color": "#73b6e6",
+        //},
+        "filter": [
+            "all",
+            ["==", "$type", "Point"]
+        ]
+});
 
-    // map.on('click', function (e) {
-    //     var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
+    map.on('click', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
 
-    //     if (!features.length) {
-    //         return;
-    //     }
+        if (!features.length) {
+            return;
+        }
 
-    //     var feature = features[0];
+        var feature = features[0];
 
-    //     // Populate the popup and set its coordinates
-    //     // based on the feature found.
-    //     var placeName = feature.properties.placeName;
-    //     var placeDescription = feature.properties.placeDescription;
-    //     var yearsLived = feature.properties.yearsLived;
-    //     console.log(feature);
-    //     var popup = new mapboxgl.Popup()
-    //         .setLngLat(feature.geometry.coordinates)
-    //         .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
-    //         .addTo(map);
-    // });
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        var placeName = feature.properties.placeName;
+        var placeDescription = feature.properties.placeDescription;
+        var yearsLived = feature.properties.yearsLived;
+        console.log(feature);
+        var popup = new mapboxgl.Popup()
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML("<h4>"+placeName+"</h4><p>"+placeDescription+"</p>")
+            .addTo(map);
+    });
     
-    //     map.on('touchend', function (e) {
-    //     var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
+        map.on('touchend', function (e) {
+        var features = map.queryRenderedFeatures(e.point, { layers: ['dataset-point'] });
 
-    //     if (!features.length) {
-    //         return;
-    //     }
+        if (!features.length) {
+            return;
+        }
 
-    //     var feature = features[0];
+        var feature = features[0];
 
-    //     // Populate the popup and set its coordinates
-    //     // based on the feature found.
-    //     var placeName = feature.properties.placeName;
-    //     var placeDescription = feature.properties.placeDescription;
-    //     var yearsLived = feature.properties.yearsLived;
-    //     console.log(feature);
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        var placeName = feature.properties.placeName;
+        var placeDescription = feature.properties.placeDescription;
+        var yearsLived = feature.properties.yearsLived;
+        console.log(feature);
        
-    //   map.on('touchstart', function(e){
-    //       $('body').removeClass('tray-open');
-    //       map.resize()
-    //       $('.info-tray h3').text();
-    //         $('.info-tray .description').html();
+       map.on('touchstart', function(e){
+           $('body').removeClass('tray-open');
+           map.resize()
+           $('.info-tray h3').text();
+            $('.info-tray .description').html();
            
-    //   });
+       });
        
-    //     $('.info-tray h3').text(placeName);
-    //     $('.info-tray .description').html(placeDescription);
-    //     map.flyTo({center: feature.geometry.coordinates});
-    //   $('body').addClass('tray-open');
-    //     map.resize(); 
+        $('.info-tray h3').text(placeName);
+        $('.info-tray .description').html(placeDescription);
+        map.flyTo({center: feature.geometry.coordinates});
+       $('body').addClass('tray-open');
+        map.resize(); 
     //   map.flyTo({center: feature.geometry.coordinates});
        
     //   setTimeout(function(){
@@ -122,13 +122,13 @@ map.on('load', function(){
        
     });
 
-    // getFeatures(
-    //     datasetId,
-    //     function(data){
-    //         //todo:fix this global reference
-    //         map.getSource('dataset').setData(data);
-    //     }
-    // );
+    getFeatures(
+        datasetId,
+        function(data){
+            //todo:fix this global reference
+            map.getSource('dataset').setData(data);
+        }
+    );
 
     // map.on('click', function (e) {
     //     var markerHeight = 50, markerRadius = 10, linearOffset = 25;
@@ -169,7 +169,7 @@ map.on('load', function(){
     // }
 
     //getData(datasetId);
-// });
+});
 
 
 //tell the modal to clear values if it becomes hidden
@@ -255,18 +255,18 @@ function postFeature(featureData, success, error) {
 }
 
 
-// function getFeatures(datasetId, onDone) {
-//     $.ajax({
-//         url : 'http://lostplacesmap.org/api/dataset?datasetId=' + datasetId,
-//         type : 'GET',
-//         dataType: 'json'
-//     })
-//         .done(function(data){
-//             onDone(data)
-//         }
-//         );
+function getFeatures(datasetId, onDone) {
+    $.ajax({
+        url : 'http://lostplacesmap.org/api/dataset?datasetId=' + datasetId,
+        type : 'GET',
+        dataType: 'json'
+    })
+        .done(function(data){
+            onDone(data)
+        }
+        );
 
-// }
+}
 
 //
 // function setFeatureId(){
